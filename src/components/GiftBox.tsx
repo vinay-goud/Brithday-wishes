@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
@@ -14,18 +14,6 @@ export default function GiftBox({ isOpened, onClick }: GiftBoxProps) {
   const lidRef = useRef<THREE.Mesh>(null);
   const [hovered, setHovered] = useState(false);
   const openTime = useRef<number | null>(null);
-
-  const boxMaterial = useMemo(() => new THREE.MeshStandardMaterial({
-    color: "#ffb6c1",
-    roughness: 0.2, // glossier
-    metalness: 0.15,
-  }), []);
-
-  const ribbonMaterial = useMemo(() => new THREE.MeshStandardMaterial({
-    color: "#ffd700",
-    roughness: 0.3,
-    metalness: 0.7, // shinier metallic gold
-  }), []);
 
   useFrame((state) => {
     // Smoothly scale the box on hover
@@ -48,20 +36,20 @@ export default function GiftBox({ isOpened, onClick }: GiftBoxProps) {
       }
       const elapsedSinceOpen = state.clock.elapsedTime - openTime.current;
 
-      if (groupRef.current && elapsedSinceOpen < 0.6) {
-        // Fast spin/shake on click before fully opening
-        groupRef.current.rotation.y += 0.2;
-        groupRef.current.position.y = Math.sin(state.clock.elapsedTime * 30) * 0.1;
+      if (groupRef.current && elapsedSinceOpen < 1.2) {
+        // Smooth fast spin/shake on click before opening
+        groupRef.current.rotation.y += 0.12;
+        groupRef.current.position.y = Math.sin(state.clock.elapsedTime * 25) * 0.08;
       } else if (groupRef.current) {
-        // Fade out or slide down after open is complete
-        groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, -5, 0.05);
+        // Slide down out of view completely (y: -15) so it doesn't stay visible in background
+        groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, -15, 0.04);
       }
 
       if (lidRef.current) {
-        lidRef.current.position.y = THREE.MathUtils.lerp(lidRef.current.position.y, 3.5, 0.05);
-        lidRef.current.position.x = THREE.MathUtils.lerp(lidRef.current.position.x, 2.5, 0.05);
-        lidRef.current.rotation.z = THREE.MathUtils.lerp(lidRef.current.rotation.z, 0.6, 0.05);
-        lidRef.current.rotation.x = THREE.MathUtils.lerp(lidRef.current.rotation.x, 0.6, 0.05);
+        lidRef.current.position.y = THREE.MathUtils.lerp(lidRef.current.position.y, 4.5, 0.04);
+        lidRef.current.position.x = THREE.MathUtils.lerp(lidRef.current.position.x, 3.5, 0.04);
+        lidRef.current.rotation.z = THREE.MathUtils.lerp(lidRef.current.rotation.z, 0.8, 0.04);
+        lidRef.current.rotation.x = THREE.MathUtils.lerp(lidRef.current.rotation.x, 0.8, 0.04);
       }
     }
   });
@@ -85,44 +73,44 @@ export default function GiftBox({ isOpened, onClick }: GiftBoxProps) {
       {/* Box Base */}
       <mesh castShadow receiveShadow position={[0, -0.5, 0]}>
         <boxGeometry args={[2, 2, 2]} />
-        <primitive object={boxMaterial} />
+        <meshStandardMaterial color="#e94b7b" roughness={0.15} metalness={0.1} />
       </mesh>
 
       {/* Base Ribbons */}
       <mesh castShadow receiveShadow position={[0, -0.5, 0]}>
         <boxGeometry args={[2.02, 2.02, 0.4]} />
-        <primitive object={ribbonMaterial} />
+        <meshStandardMaterial color="#ffd700" roughness={0.1} metalness={0.9} />
       </mesh>
       <mesh castShadow receiveShadow position={[0, -0.5, 0]}>
         <boxGeometry args={[0.4, 2.02, 2.02]} />
-        <primitive object={ribbonMaterial} />
+        <meshStandardMaterial color="#ffd700" roughness={0.1} metalness={0.9} />
       </mesh>
 
       {/* Box Lid */}
       <group ref={lidRef} position={[0, 0.5, 0]}>
         <mesh castShadow receiveShadow position={[0, 0.1, 0]}>
           <boxGeometry args={[2.1, 0.4, 2.1]} />
-          <primitive object={boxMaterial} />
+          <meshStandardMaterial color="#e94b7b" roughness={0.15} metalness={0.1} />
         </mesh>
         
         {/* Lid Ribbons */}
         <mesh castShadow receiveShadow position={[0, 0.1, 0]}>
           <boxGeometry args={[2.12, 0.42, 0.4]} />
-          <primitive object={ribbonMaterial} />
+          <meshStandardMaterial color="#ffd700" roughness={0.1} metalness={0.9} />
         </mesh>
         <mesh castShadow receiveShadow position={[0, 0.1, 0]}>
           <boxGeometry args={[0.4, 0.42, 2.12]} />
-          <primitive object={ribbonMaterial} />
+          <meshStandardMaterial color="#ffd700" roughness={0.1} metalness={0.9} />
         </mesh>
 
         {/* Bow */}
         <mesh castShadow receiveShadow position={[0, 0.5, 0]} rotation={[0, Math.PI / 4, 0]}>
           <torusGeometry args={[0.3, 0.1, 16, 32]} />
-          <primitive object={ribbonMaterial} />
+          <meshStandardMaterial color="#ffd700" roughness={0.1} metalness={0.9} />
         </mesh>
         <mesh castShadow receiveShadow position={[0, 0.5, 0]} rotation={[0, -Math.PI / 4, 0]}>
           <torusGeometry args={[0.3, 0.1, 16, 32]} />
-          <primitive object={ribbonMaterial} />
+          <meshStandardMaterial color="#ffd700" roughness={0.1} metalness={0.9} />
         </mesh>
       </group>
     </group>

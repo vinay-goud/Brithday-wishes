@@ -1,6 +1,4 @@
-"use client";
-
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import confetti from "canvas-confetti";
 import gsap from "gsap";
 
@@ -17,8 +15,21 @@ export default function Celebration({
   const textRef = useRef<HTMLHeadingElement>(null);
   const elementsRef = useRef<HTMLDivElement>(null);
   const hasRun = useRef(false);
+  const [scrolled, setScrolled] = useState(false);
 
   const splitText = "Happy Birthday Priya!".split("");
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 30) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     if (isOpened && !hasRun.current) {
@@ -93,7 +104,7 @@ export default function Celebration({
     >
       <h1
         ref={textRef}
-        className="font-serif text-5xl md:text-7xl lg:text-8xl text-primary-500 font-bold drop-shadow-lg text-center leading-tight perspective-1000"
+        className="font-serif text-3xl sm:text-5xl md:text-7xl lg:text-8xl text-primary-500 font-bold drop-shadow-lg text-center leading-tight perspective-1000"
       >
         {splitText.map((char, i) => (
           <span key={i} className="char inline-block whitespace-pre">
@@ -107,7 +118,7 @@ export default function Celebration({
         ref={elementsRef}
         className="mt-12 flex flex-col items-center opacity-0 invisible translate-y-8 pointer-events-auto"
       >
-        <div className="mt-10 animate-bounce flex flex-col items-center">
+        <div className={`mt-10 animate-bounce flex flex-col items-center transition-opacity duration-500 ${scrolled ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
           <p className="text-foreground/70 font-serif text-lg italic drop-shadow-sm">
             Scroll for more
           </p>

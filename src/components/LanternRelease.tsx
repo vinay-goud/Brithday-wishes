@@ -104,7 +104,6 @@ export default function LanternRelease({ active }: { active: boolean }) {
 
   return (
     <div className={`fixed inset-0 pointer-events-none z-[40] transition-opacity duration-[3000ms] ${active ? 'opacity-100' : 'opacity-0'}`}>
-        <div className="absolute inset-0 bg-gradient-to-b from-indigo-950/30 via-purple-950/50 to-slate-900/70 backdrop-blur-[3px]" />
         <canvas 
         ref={canvasRef} 
         className="absolute inset-0" 

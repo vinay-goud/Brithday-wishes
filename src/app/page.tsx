@@ -110,7 +110,7 @@ export default function Home() {
       {showFireflies && <Fireflies />}
       
       {/* 3D Gift Box Scene */}
-      <div className={`fixed inset-0 z-0 pointer-events-auto transition-opacity duration-1000 ${showNotes ? 'opacity-30' : 'opacity-100'}`}>
+      <div className={`fixed inset-0 z-0 pointer-events-auto transition-opacity duration-1000 ${showNotes ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
         <Experience isOpened={isOpened} onOpen={handleOpen} />
       </div>
       
