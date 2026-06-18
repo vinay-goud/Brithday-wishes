@@ -61,7 +61,7 @@ export default function Home() {
     setTimeout(() => {
       playBGM();
       setShowFireflies(true); // Start fireflies after box opens
-    }, 600);
+    }, 2000);
   }, [isOpened]);
 
   const handleMakeWish = () => {

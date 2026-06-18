@@ -40,7 +40,7 @@ export default function GiftBox({ isOpened, onClick }: GiftBoxProps) {
       }
       const elapsedSinceOpen = state.clock.elapsedTime - openTime.current;
 
-      if (elapsedSinceOpen < 1.2) {
+      if (elapsedSinceOpen < 2.0) {
         // Phase 1: Anticipation (shaking and squashing, lid stays on)
         if (groupRef.current) {
           groupRef.current.rotation.y += 0.15;
@@ -55,19 +55,19 @@ export default function GiftBox({ isOpened, onClick }: GiftBoxProps) {
       } else {
         // Phase 2: Pop & Release (lid flies off, box base slides down out of view)
         if (groupRef.current) {
-          groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, -15, 0.04);
+          groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, -15, 0.02);
           groupRef.current.rotation.y += 0.02; // slow spin as it slides down
           // Smoothly scale back to normal as it falls
-          groupRef.current.scale.x = THREE.MathUtils.lerp(groupRef.current.scale.x, 1, 0.05);
-          groupRef.current.scale.y = THREE.MathUtils.lerp(groupRef.current.scale.y, 1, 0.05);
-          groupRef.current.scale.z = THREE.MathUtils.lerp(groupRef.current.scale.z, 1, 0.05);
+          groupRef.current.scale.x = THREE.MathUtils.lerp(groupRef.current.scale.x, 1, 0.02);
+          groupRef.current.scale.y = THREE.MathUtils.lerp(groupRef.current.scale.y, 1, 0.02);
+          groupRef.current.scale.z = THREE.MathUtils.lerp(groupRef.current.scale.z, 1, 0.02);
         }
 
         if (lidRef.current) {
-          lidRef.current.position.y = THREE.MathUtils.lerp(lidRef.current.position.y, 6, 0.05);
-          lidRef.current.position.x = THREE.MathUtils.lerp(lidRef.current.position.x, 5, 0.05);
-          lidRef.current.rotation.z = THREE.MathUtils.lerp(lidRef.current.rotation.z, 1.2, 0.05);
-          lidRef.current.rotation.x = THREE.MathUtils.lerp(lidRef.current.rotation.x, 1.2, 0.05);
+          lidRef.current.position.y = THREE.MathUtils.lerp(lidRef.current.position.y, 6, 0.02);
+          lidRef.current.position.x = THREE.MathUtils.lerp(lidRef.current.position.x, 5, 0.02);
+          lidRef.current.rotation.z = THREE.MathUtils.lerp(lidRef.current.rotation.z, 1.2, 0.02);
+          lidRef.current.rotation.x = THREE.MathUtils.lerp(lidRef.current.rotation.x, 1.2, 0.02);
         }
       }
     }

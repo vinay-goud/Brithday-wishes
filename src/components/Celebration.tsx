@@ -34,35 +34,37 @@ export default function Celebration({
   useEffect(() => {
     if (isOpened && !hasRun.current) {
       hasRun.current = true;
-      // 1. Fire Confetti
-      const duration = 3 * 1000;
-      const end = Date.now() + duration;
+      // 1. Fire Confetti (delayed to match box pop)
+      setTimeout(() => {
+        const duration = 3 * 1000;
+        const end = Date.now() + duration;
 
-      const frame = () => {
-        confetti({
-          particleCount: 5,
-          angle: 60,
-          spread: 55,
-          origin: { x: 0 },
-          colors: ["#ffb6c1", "#ffd700", "#ff69b4"],
-        });
-        confetti({
-          particleCount: 5,
-          angle: 120,
-          spread: 55,
-          origin: { x: 1 },
-          colors: ["#ffb6c1", "#ffd700", "#ff69b4"],
-        });
+        const frame = () => {
+          confetti({
+            particleCount: 5,
+            angle: 60,
+            spread: 55,
+            origin: { x: 0 },
+            colors: ["#ffb6c1", "#ffd700", "#ff69b4"],
+          });
+          confetti({
+            particleCount: 5,
+            angle: 120,
+            spread: 55,
+            origin: { x: 1 },
+            colors: ["#ffb6c1", "#ffd700", "#ff69b4"],
+          });
 
-        if (Date.now() < end) {
-          requestAnimationFrame(frame);
-        }
-      };
-      frame();
+          if (Date.now() < end) {
+            requestAnimationFrame(frame);
+          }
+        };
+        frame();
+      }, 2000);
 
-      // 2. Animate Typography
+      // 2. Animate Typography (delayed to match box pop)
       if (textRef.current && containerRef.current && elementsRef.current) {
-        gsap.to(containerRef.current, { autoAlpha: 1, duration: 0.5 });
+        gsap.to(containerRef.current, { autoAlpha: 1, duration: 0.5, delay: 2.0 });
 
         const chars = textRef.current.querySelectorAll(".char");
 
@@ -76,7 +78,7 @@ export default function Celebration({
             stagger: 0.05,
             duration: 1,
             ease: "back.out(1.7)",
-            delay: 0.5,
+            delay: 2.5,
             onComplete: () => {
               // Apply shimmer to the h1 text
               if (textRef.current) {
