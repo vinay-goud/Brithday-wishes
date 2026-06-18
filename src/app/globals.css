@@ -1,0 +1,104 @@
+@import "tailwindcss";
+
+:root {
+  --background: #fffafa;
+  --foreground: #2d1b2e;
+  
+  --primary-100: #ffe4e1; /* misty rose */
+  --primary-300: #ffb6c1; /* light pink */
+  --primary-500: #ff69b4; /* hot pink */
+  
+  --secondary-100: #e6e6fa; /* lavender */
+  --secondary-300: #d8bfd8; /* thistle */
+  
+  --accent: #ffd700; /* gold */
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary-100: var(--primary-100);
+  --color-primary-300: var(--primary-300);
+  --color-primary-500: var(--primary-500);
+  --color-secondary-100: var(--secondary-100);
+  --color-secondary-300: var(--secondary-300);
+  --color-accent: var(--accent);
+  
+  --font-sans: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-playfair), ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+}
+
+/* Force dvh to handle mobile address bars */
+body, html {
+  min-height: 100dvh;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+body {
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  background: linear-gradient(-45deg, #fffafa, #ffe4e1, #e6e6fa, #ffefd5, #fffafa);
+  background-size: 400% 400%;
+  animation: gradient-shift 20s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0%   { background-position: 0% 50%; }
+  25%  { background-position: 100% 50%; }
+  50%  { background-position: 100% 0%; }
+  75%  { background-position: 0% 100%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Hide scrollbar for the immersive feel but allow scrolling */
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+/* Rainbow shimmer for the birthday text */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.text-shimmer {
+  background: linear-gradient(
+    90deg,
+    #ff69b4 0%,
+    #ffd700 20%,
+    #ff69b4 40%,
+    #e6e6fa 60%,
+    #ffb6c1 80%,
+    #ff69b4 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 3s linear infinite;
+}
+
+/* Floating up animation for hearts/balloons */
+@keyframes float-up {
+  0%   { transform: translateY(0) scale(1); opacity: 1; }
+  100% { transform: translateY(-120px) scale(1.5); opacity: 0; }
+}
+
+.animate-float-up {
+  animation: float-up 2s ease-out forwards;
+}
+
+/* Heartbeat animation */
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  25%      { transform: scale(1.1); }
+  50%      { transform: scale(1); }
+  75%      { transform: scale(1.05); }
+}
+
+.animate-heartbeat {
+  animation: heartbeat 1.5s ease-in-out infinite;
+}
