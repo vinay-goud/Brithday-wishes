@@ -3,8 +3,10 @@
 import { useEffect, useState } from "react";
 import { playPop } from "@/utils/audio";
 
+const celebrationEmojis = ["✨", "🌟", "🎉", "🍰", "🎈"];
+
 export default function DoubleTapHeart() {
-  const [hearts, setHearts] = useState<{ id: number; x: number; y: number }[]>([]);
+  const [hearts, setHearts] = useState<{ id: number; x: number; y: number; emoji: string }[]>([]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -20,7 +22,8 @@ export default function DoubleTapHeart() {
         const y = touch.clientY;
 
         const heartId = Date.now();
-        setHearts(prev => [...prev.slice(-5), { id: heartId, x, y }]);
+        const emoji = celebrationEmojis[Math.floor(Math.random() * celebrationEmojis.length)];
+        setHearts(prev => [...prev.slice(-5), { id: heartId, x, y, emoji }]);
         playPop();
 
         // Haptic
@@ -28,7 +31,7 @@ export default function DoubleTapHeart() {
           navigator.vibrate(50);
         }
 
-        // Remove heart after animation
+        // Remove emoji after animation
         setTimeout(() => {
           setHearts(prev => prev.filter(h => h.id !== heartId));
         }, 2000);
@@ -54,8 +57,8 @@ export default function DoubleTapHeart() {
             top: heart.y - 30,
           }}
         >
-          <span className="text-6xl drop-shadow-lg" role="img" aria-label="Heart">
-            💖
+          <span className="text-6xl drop-shadow-lg" role="img" aria-label="Celebration Element">
+            {heart.emoji}
           </span>
         </div>
       ))}
